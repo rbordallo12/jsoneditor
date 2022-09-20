@@ -28,6 +28,7 @@ import {
   sort,
   sortObjectKeys
 } from './util'
+import defaultButtonStyles from './defaultButtonStyles';
 
 const textmode = textModeMixins[0].mixin
 
@@ -254,6 +255,28 @@ previewmode.create = function (container, options = {}) {
         }
       })
     }
+
+    // Add extra buttons
+    if (this.options && this.options.mainMenuButtons && this.options.mainMenuButtons.length) {
+      this.options.mainMenuButtons.forEach((button) => {
+        const dom = document.createElement("button");
+        dom.type = "button";
+        dom.className = button.className || "";
+        dom.title = button.title || "";
+        dom.innerText = button.title || "";
+        dom.onclick = button.onclick
+
+        Object.keys(defaultButtonStyles).forEach(function(e) {
+            dom.style[e] = defaultButtonStyles[e]
+        });
+        Object.keys(button.style || {}).forEach((e) => {
+            dom.style[e] = button.style[e];
+        }); 
+      
+        this.menu.appendChild(dom);
+
+      });
+    } 
   }
 
   this.errorTable = new ErrorTable({

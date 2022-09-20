@@ -31,6 +31,8 @@ import {
   tryJsonRepair
 } from './util'
 import VanillaPicker from './vanilla-picker'
+import defaultButtonStyles from './defaultButtonStyles';
+
 
 // create a mixin with the functions for tree mode
 const treemode = {}
@@ -131,6 +133,7 @@ treemode._setOptions = function (options) {
     limitDragging: false,
     onSelectionChange: null,
     colorPicker: true,
+    mainMenuButtons: [],
     onColorPicker: function (parent, color, onChange) {
       if (VanillaPicker) {
         // we'll render the color picker on top
@@ -1104,6 +1107,29 @@ treemode._createFrame = function () {
         }
       })
     }
+
+    // Add extra buttons
+    if (this.options && this.options.mainMenuButtons && this.options.mainMenuButtons.length) {
+      this.options.mainMenuButtons.forEach((button) => {
+        const dom = document.createElement("button");
+        dom.type = "button";
+        dom.className = button.className || "";
+        dom.title = button.title || "";
+        dom.innerText = button.title || "";
+        dom.onclick = button.onclick
+
+
+        Object.keys(defaultButtonStyles).forEach(function(e) {
+          dom.style[e] = defaultButtonStyles[e]
+        });
+        Object.keys(button.style || {}).forEach((e) => {
+            dom.style[e] = button.style[e];
+        });
+      
+        this.menu.appendChild(dom);
+
+      });
+    } 
 
     // create search box
     if (this.options.search) {

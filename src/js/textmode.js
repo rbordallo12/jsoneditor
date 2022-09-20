@@ -27,6 +27,8 @@ import {
   sortObjectKeys
 } from './util'
 import { validateCustom } from './validationUtils'
+import defaultButtonStyles from './defaultButtonStyles';
+
 
 // create a mixin with the functions for text mode
 const textmode = {}
@@ -239,20 +241,42 @@ textmode.create = function (container, options = {}) {
       })
     }
 
-    if (this.mode === 'code') {
-      const poweredBy = document.createElement('a')
-      poweredBy.appendChild(document.createTextNode('powered by ace'))
-      poweredBy.href = 'https://ace.c9.io/'
-      poweredBy.target = '_blank'
-      poweredBy.className = 'jsoneditor-poweredBy'
-      poweredBy.onclick = () => {
-        // TODO: this anchor falls below the margin of the content,
-        // therefore the normal a.href does not work. We use a click event
-        // for now, but this should be fixed.
-        window.open(poweredBy.href, poweredBy.target, 'noreferrer')
-      }
-      this.menu.appendChild(poweredBy)
+    // Add extra buttons
+    if (this.options && this.options.mainMenuButtons && this.options.mainMenuButtons.length) {
+      this.options.mainMenuButtons.forEach((button) => {
+        const dom = document.createElement("button");
+        dom.type = "button";
+        dom.className = button.className || "";
+        dom.title = button.title || "";
+        dom.innerText = button.title || "";
+        dom.onclick = button.onclick
+
+        Object.keys(defaultButtonStyles).forEach(function(e) {
+          dom.style[e] = defaultButtonStyles[e]
+        });
+        Object.keys(button.style || {}).forEach((e) => {
+            dom.style[e] = button.style[e];
+        });
+      
+        this.menu.appendChild(dom);
+
+      });
     }
+
+    // if (this.mode === 'code') {
+    //   const poweredBy = document.createElement('a')
+    //   poweredBy.appendChild(document.createTextNode('powered by ace'))
+    //   poweredBy.href = 'https://ace.c9.io/'
+    //   poweredBy.target = '_blank'
+    //   poweredBy.className = 'jsoneditor-poweredBy'
+    //   poweredBy.onclick = () => {
+    //     // TODO: this anchor falls below the margin of the content,
+    //     // therefore the normal a.href does not work. We use a click event
+    //     // for now, but this should be fixed.
+    //     window.open(poweredBy.href, poweredBy.target, 'noreferrer')
+    //   }
+    //   this.menu.appendChild(poweredBy)
+    // }
   }
 
   const emptyNode = {}

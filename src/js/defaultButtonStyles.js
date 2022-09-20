@@ -1,0 +1,30 @@
+const defaultStyles = {
+    paddingLeft: "1rem",
+    paddingRight: "1rem",
+    textAlign: "center",
+    verticalAlign: "middle",
+    border: "1px solid #dddbda",
+    transition: "border .15s linear",
+    backgroundColor: "#007000",
+    borderColor: "#0070d2",
+    color: "#fff",
+    position: "relative",
+    display: "inline-block",
+    backgroundImage: "none",
+    backgroundClip: "border-box",
+    borderRadius: ".25rem",
+    lineHeight: "1.875rem",
+    textDecoration: "none",
+    whiteSpace: "normal",
+    userSelect: "none",
+    width: "auto",
+    // height: "auto",
+    margin: "auto",
+    cursor: "pointer",
+    marginLeft: "5px",
+    marginRight: "5px",
+    height: "30px",
+    float: "right"
+};
+
+export default defaultStyles;
